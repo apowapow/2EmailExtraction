@@ -1,11 +1,12 @@
 import re
+from pprint import pprint
 
 FILE_SAMPLE = "sample.txt"
 READ_ONLY = "r"
 
 
 def main():
-    d = {}
+    addr = {}
 
     with open(FILE_SAMPLE, READ_ONLY) as f:
         file_content = f.read().replace('\n', ' ').split(' ')
@@ -18,13 +19,13 @@ def main():
             local = fc_partition[0]
             domain = fc_partition[2]
 
-            if domain not in d.keys():
-                d[domain] = []
+            if domain not in addr:
+                addr[domain] = []
 
-            d[domain].append(local)
+            addr[domain].append(local)
 
-    for domain, local in d.items():
-        print("{0}: {1}".format(domain, len(local)))
+    addr_freq = sorted([(domain, len(local)) for domain, local in addr.items()], key=lambda t: t[1], reverse=True)
+    pprint(addr_freq)
 
 
 if __name__ == "__main__":
